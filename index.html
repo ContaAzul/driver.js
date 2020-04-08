@@ -142,11 +142,25 @@ driver.highlight({
 </code></pre>
     </div>
     <div class="section__example">
-      <div class="top-20 position-btns">
-        <a href="#" id="position-btn-left">On my Left</a>
-        <a href="#" id="position-btn-top">On my Top</a>
-        <a href="#" id="position-btn-bottom">On my Bottom</a>
-        <a href="#" id="position-btn-right">On my Right</a>
+      <div class="top-90 position-btns" id="position-btns">
+        <a href="#" id="position-btn-left" data-alignment="left">Left, Left Top</a>
+        <a href="#" id="position-btn-left-center" data-alignment="left-center">Left Center</a>
+        <a href="#" id="position-btn-left-bottom" data-alignment="left-bottom">Left Bottom</a>
+
+        <a href="#" id="position-btn-right" data-alignment="right">Right, Right Top</a>
+        <a href="#" id="position-btn-right-center" data-alignment="right-center">Right Center</a>
+        <a href="#" id="position-btn-right-bottom" data-alignment="right-bottom">Right Bottom</a>
+
+        <a href="#" id="position-btn-top" data-alignment="top">Top, Top-left</a>
+        <a href="#" id="position-btn-top-center" data-alignment="top-center">Top Center</a>
+        <a href="#" id="position-btn-top-right" data-alignment="top-right">Top Right</a>
+
+        <a href="#" id="position-btn-bottom" data-alignment="bottom">Bottom, Bottom left</a>
+        <a href="#" id="position-btn-bottom-center" data-alignment="bottom-center">Bottom center</a>
+        <a href="#" id="position-btn-bottom-right" data-alignment="bottom-right">Bottom right</a>
+
+        <a href="#" id="position-btn-mid-center" data-alignment="mid-center">Mid Center</a>
+        <!-- <a href="#" id="position-btn-auto" data-alignment="auto">Auto</a> -->
       </div>
       <p class="top-20">If you don't specify the position or specify it to be <code>auto</code>, it will automatically
         find the suitable position for the popover and show it</p>
@@ -241,6 +255,45 @@ driver.start();
       keys on keyboard. Or you may control it using the methods provided by Driver.</p>
 
     <hr class="hr__fancy">
+    <div id="show-counter-in-popover" class="section__example">
+      <h4 id="first-element-introduction-with-counter">Show Counter In Footer</h4>
+      <p id="second-element-introduction-with-counter">This option enables a steps counter in footer to inform user about their feature introduction journey.</p>
+      <a href="#" class="btn__run-demo" id="run-show-counter-in-popover">Show Demo</a>
+      <pre><code class="javascript">const driver = new Driver({
+  showCounter: true,
+  counterTemplate: '{current} of {total}', // optional, default is '{current} of {total}' already
+  xCloseButton: true, // optional, to change close button layout
+});
+
+// Define the steps for introduction
+driver.defineSteps([
+  {
+    element: '#first-element-introduction-with-counter',
+    popover: {
+      className: 'first-step-popover-class',
+      title: 'First step of introduction',
+      description: 'Body of the popover',
+      position: 'top'
+    }
+  },
+  {
+    element: '#second-element-introduction-with-counter',
+    popover: {
+      title: 'Second step of introduction',
+      description: 'Body of the popover',
+      position: 'top'
+    }
+  },
+]);
+
+// Start the introduction
+driver.start();</code></pre>
+      <p id="third-element-introduction-with-counter" class="top-20">
+        We encourage you to also enable the option <strong>xCloseButton</strong> (listed below in <a href="#driver-definition">Driver Definition</a>) when showing the steps counter, because this close button style fits better in the popover layout.
+      </p>
+    </div>
+
+    <hr class="hr__fancy">
 
     <div id="element-without-popover" class="section__example">
       <h4>Without Overlay</h4>
@@ -270,7 +323,7 @@ driver.highlight({
         <h3>..and much much more</h3>
         <p>Driver comes with many options that you can manipulate to make driver behave as you may like</p>
       </div>
-      <h4>Driver Definition</h4>
+      <h4 id="driver-definition">Driver Definition</h4>
       <p>Here are the options that Driver understands</p>
       <pre><code class="javascript">const driver = new Driver({
   className: 'scoped-class', // className to wrap driver.js popover
@@ -286,6 +339,9 @@ driver.highlight({
   showButtons: false, // Do not show control buttons in footer
   keyboardControl: true, // Allow controlling through keyboard (escape to close, arrow keys to move)
   scrollIntoViewOptions: {}, // We use `scrollIntoView()` when possible, pass here the options for it if you want any
+  xCloseButton: false, // Put the close button as an X on the top right corner of popover
+  showCounter: false, // Enables the steps counter
+  counterTemplate: '{current} of {total}', // Template of steps counter
   onHighlightStarted: (Element) {}, // Called when element is about to be highlighted
   onHighlighted: (Element) {}, // Called when element is fully highlighted
   onDeselected: (Element) {}, // Called when element has been deselected
