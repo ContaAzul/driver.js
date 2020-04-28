@@ -1,9 +1,24 @@
 const path = require('path');
+const TerserPlugin = require('terser-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = {
   mode: 'production',
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          mangle: true,
+          keep_fnames: true,
+          compress: {
+            warnings: false,
+          },
+          sourceMap: true,
+        },
+      }),
+    ],
+  },
   entry: [
     './src/driver.scss',
     './src/index.js',
