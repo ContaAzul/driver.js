@@ -1,4 +1,9 @@
-import { CLASS_STAGE_NO_ANIMATION, ID_STAGE, STAGE_HTML } from '../common/constants';
+import {
+  CLASS_STAGE_NO_ANIMATION,
+  ID_STAGE,
+  STAGE_HTML,
+  ID_OVERLAY,
+} from '../common/constants';
 import { createNodeFromString } from '../common/utils';
 import Element from './element';
 
@@ -79,6 +84,7 @@ export default class Stage extends Element {
 
     const width = (position.right - position.left) + (requiredPadding);
     const height = (position.bottom - position.top) + (requiredPadding);
+    const overlay = this.document.getElementById(ID_OVERLAY);
 
     // Show the stage
     this.node.style.display = 'block';
@@ -88,5 +94,9 @@ export default class Stage extends Element {
     this.node.style.top = `${position.top - (requiredPadding / 2)}px`;
     this.node.style.left = `${position.left - (requiredPadding / 2)}px`;
     this.node.style.backgroundColor = this.options.stageBackground;
+
+    setTimeout(() => {
+      overlay.style.opacity = this.options.animate ? this.options.opacity : 0;
+    });
   }
 }
