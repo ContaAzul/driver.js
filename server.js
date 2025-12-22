@@ -7,13 +7,14 @@ const config = require('./config/webpack.config.demo');
 const PORT = 3000;
 const HOST = 'localhost';
 
-const compiler = webpack(config);
-const server = new WebpackDevServer({
+const devServerOptions = {
   port: PORT,
   host: HOST,
-  open: false,
-  hot: false,
-}, compiler);
+  static: './dist/demo',
+};
+
+const compiler = webpack(config);
+const server = new WebpackDevServer(devServerOptions, compiler);
 
 server.start().then(() => {
   const URL = `http://${HOST}:${PORT}`;
