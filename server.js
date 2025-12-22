@@ -11,6 +11,7 @@ const devServerOptions = {
   port: PORT,
   host: HOST,
   static: './dist/demo',
+  historyApiFallback: true,
 };
 
 const compiler = webpack(config);
