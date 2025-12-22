@@ -31,16 +31,6 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'eslint-loader',
-        enforce: 'pre',
-        options: {
-          failOnWarning: false,
-          failOnError: true,
-        },
-      },
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
         loader: 'babel-loader',
       },
       {
@@ -68,14 +58,12 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: styleFileName,
     }),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: './demo/images/',
-          to: 'images',
-        },
-      ],
-    }),
+    new CopyWebpackPlugin([
+      {
+        from: './demo/images/',
+        to: 'images',
+      },
+    ]),
     new HtmlWebpackPlugin({
       template: 'demo/index.html',
       favicon: 'demo/images/favicon.png',
