@@ -1,7 +1,7 @@
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -10,6 +10,9 @@ const styleFileName = 'driver-demo.min.css';
 
 module.exports = {
   mode: isProduction ? 'production' : 'development',
+  optimization: {
+    minimizer: isProduction ? ['...', new CssMinimizerPlugin()] : [],
+  },
   entry: [
     './demo/styles/demo.scss',
     './demo/scripts/demo.js',
@@ -42,7 +45,8 @@ module.exports = {
       },
       {
         test: /.scss$/,
-        loader: ExtractTextPlugin.extract([
+        use: [
+          MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: { url: false },
@@ -50,40 +54,28 @@ module.exports = {
           {
             loader: 'postcss-loader',
             options: {
-              ident: 'postcss',
-              plugins: [require('autoprefixer')()], // eslint-disable-line global-require
+              postcssOptions: {
+                plugins: [require('autoprefixer')()], // eslint-disable-line global-require
+              },
             },
           },
           'sass-loader',
-        ]),
+        ],
       },
     ],
   },
   plugins: [
-    new ExtractTextPlugin({
+    new MiniCssExtractPlugin({
       filename: styleFileName,
-      allChunks: true,
     }),
-    new OptimizeCssAssetsPlugin({
-      assetNameRegExp: /\.min\.css$/g,
-      // eslint-disable-next-line global-require
-      cssProcessor: require('cssnano'),
-      cssProcessorPluginOptions: {
-        preset: [
-          'default',
-          {
-            discardComments: { removeAll: true },
-          },
-        ],
-      },
-      canPrint: true,
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: './demo/images/',
+          to: 'images',
+        },
+      ],
     }),
-    new CopyWebpackPlugin([
-      {
-        from: './demo/images/',
-        to: 'images',
-      },
-    ]),
     new HtmlWebpackPlugin({
       template: 'demo/index.html',
       favicon: 'demo/images/favicon.png',
