@@ -27,9 +27,11 @@ module.exports = {
     path: path.join(__dirname, '/../dist'),
     publicPath: '/dist/',
     filename: 'driver.min.js',
-    libraryTarget: 'umd',
-    library: 'Driver',
-    libraryExport: 'default',
+    library: {
+      name: 'Driver',
+      type: 'umd',
+      export: 'default',
+    },
   },
   module: {
     rules: [

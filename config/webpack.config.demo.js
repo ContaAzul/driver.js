@@ -22,9 +22,11 @@ module.exports = {
     path: path.join(__dirname, '/../dist/demo'),
     publicPath: './',
     filename: scriptFileName,
-    libraryTarget: 'umd',
-    library: 'Driver',
-    libraryExport: 'default',
+    library: {
+      name: 'Driver',
+      type: 'umd',
+      export: 'default',
+    },
   },
   module: {
     rules: [
