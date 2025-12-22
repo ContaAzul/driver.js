@@ -58,12 +58,14 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: styleFileName,
     }),
-    new CopyWebpackPlugin([
-      {
-        from: './demo/images/',
-        to: 'images',
-      },
-    ]),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: './demo/images/',
+          to: 'images',
+        },
+      ],
+    }),
     new HtmlWebpackPlugin({
       template: 'demo/index.html',
       favicon: 'demo/images/favicon.png',
